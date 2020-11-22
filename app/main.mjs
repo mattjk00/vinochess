@@ -1,3 +1,3 @@
-export function test() {
+function test() {
     console.log("Hello from vinochess");
 }
