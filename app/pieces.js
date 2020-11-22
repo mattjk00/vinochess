@@ -1,9 +1,10 @@
-const GRIDSIZE = 8;
+export const GRIDSIZE = 8;
+export const PIECESIZE = 80;
 
 /**
  * Represents a game piece. Has a name, position, and set of moves.
  */
-class Piece {
+export default class Piece {
     /**
      * Construct a new game piece object. Moves set to empty array
      * @param {String} name - The name of the Piece
@@ -18,6 +19,9 @@ class Piece {
         this.moves = [];
         /** The owner of the pawn. e.g. Player 1 or Player 2 */
         this.owner = -1;
+        /** The sprite data of the piece */
+        this.sprite={};
+        this.gridIndex = -1;
     }
 }
 
@@ -25,7 +29,7 @@ class Piece {
  * Represents a possible move that a piece can take.
  * Has the x and y move as well as the one dimensional move for 1d array moevs.
  */
-class Move {
+export class Move {
     /**
      * Construct a new move object.
      * @param {Number} x - Change in x
@@ -45,18 +49,13 @@ class Move {
  * @param {Number} x - Starting x position
  * @param {Number} y - Starting y position
  * @param {String} owner - Player owner of this piece.
+ * @returns {Piece} The constructed pawn object.
  */
-function newPawn(name, x, y, owner)  {
+export function newPawn(name, x, y, owner)  {
     let pawn = new Piece(name, x, y);
-    let m1 = new Move(0, 1, -GRIDSIZE);
+    let m1 = new Move(1, 3, -GRIDSIZE);
     pawn.moves = [m1];
     pawn.owner = owner;
 
-    return newPawn;
-}
-
-module.exports = {
-    Piece:Piece,
-    Move:Move,
-    newPawn:newPawn
+    return pawn;
 }
