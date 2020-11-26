@@ -1,0 +1,28 @@
+Matthew Kleitz 2020
+
+Some notes on how this application is being written.
+
+Each game piece is represented by a class. It has a reference to a sprite that is the actual thing that is scene in the PIXI scene.
+Whenever a piece is moved, the sprite should be moved as well.
+
+The game board is a single dimensioned array. This results in there being sometimes three different forms of a piece's coordinates.
+    1) 2D Grid - The (x, y) grid coordinate. 0 < x < 7, 0 < y < 7. Like what square the chess piece is on
+    2) Sprite - The screen coordinates of the sprite. Is just scaled version of the grid x,y coordinates.
+    3) Grid Index - The position in the actual array that represents the game board.
+Whenever a piece is moved, these coordinates should all change accordingly. Ideally, we would not care about sprite coordinates, but they must be updated with
+the piece coordinates... a PIXI thing. But keeping all these coordinates is very convenient for different situations.
+
+In general, when something is called a "move", assume that it is a 1D change in grid index. E.g. if move=2, move the piece's grid index over 2.
+If something is called "movex", or "movey", these should be assumed to be a change in the 2D Grid coordinate. E.g. movex=1, movey=1 -> move right and down 1.
+The 1D move can be found as a linear combination of the 2D moves GRIDSIZE * movey + movex.
+
+Main.js is where the main game flow happens. It handles user input and updates the game and render data accordingly.
+
+=== 11/26/2020 ===
+-   Added basic functionality for moving a piece. This uses two game states. If IDLE and a piece is clicked, then store that as the selected piece and change
+    the state to MOVECHOICE. If the grid is clicked while in this new state, then move the piece to the square that was clicked.
+-   Some things that need to be added is
+    - Validation of the move. Server side needs to validate that a move is legal.
+    - Visual display for valid moves that the piece can take.
+    - Ability to cancel out of the move state.
+~~ Handling three different coordinates feels clumsy. But for now it is working. Serverside development should start soon. ~~~
